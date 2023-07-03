@@ -6,12 +6,14 @@ namespace App\Model;
 
 use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\ModelCache\Cacheable;
+use Hyperf\ModelCache\CacheableInterface;
 use Qbhy\HyperfAuth\AuthAbility;
 use Qbhy\HyperfAuth\Authenticatable;
 
-class User extends Model implements Authenticatable
+class User extends Model implements Authenticatable, CacheableInterface
 {
-    use AuthAbility;
+    use AuthAbility, Cacheable;
 
     const CREATED_AT = 'create_time';
 
@@ -42,6 +44,9 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected array $casts = ['id' => 'integer'];
+
+    // repository
+    protected $repository = UserRepository::class;
 
     public function bonus(): HasMany
     {
